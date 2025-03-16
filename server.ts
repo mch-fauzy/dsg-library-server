@@ -1,5 +1,6 @@
 import {serve} from '@hono/node-server';
 import {Hono} from 'hono';
+import {cors} from 'hono/cors';
 
 import {CONFIG} from './configs/config.js';
 import {logInfo} from './utils/logger.js';
@@ -8,6 +9,7 @@ import {router} from './routes/index.js';
 
 const app = new Hono();
 
+app.use('*', cors());
 app.route('/', router);
 
 // Global error handler
