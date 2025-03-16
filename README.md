@@ -10,6 +10,7 @@ A book management API server built with **Hono.js**, **Drizzle ORM**, and **Supa
   - [Run with Local Database (Optional)](#run-with-local-database-optional)
 - [Usage](#usage)
   - [API Endpoints](#api-endpoints)
+  - [Query Parameters](#query-parameters)
   - [Example Request Body](#example-request-body)
 
 ---
@@ -88,6 +89,32 @@ POST   http://localhost:3000/v1/books
 PATCH  http://localhost:3000/v1/books/4
 DELETE http://localhost:3000/v1/books/4
 ```
+
+---
+
+### Query Parameters
+
+For the `GET /v1/books` endpoint, you can use optional query parameters to filter and paginate results.
+
+| Parameter  | Type   | Description                                  | Default |
+|------------|--------|----------------------------------------------|---------|
+| `page`     | number | Page number for pagination                  | `1`     |
+| `page_size`| number | Number of items per page                    | `10`    |
+| `sort`     | string | Field to sort by                            | `"name"`|
+| `order`    | string | Sort order (`asc` or `desc`)                | `"asc"` |
+| `query`    | string | Search books by name/title (case-insensitive) | `""`    |
+
+**Example:**
+```http
+GET http://localhost:3000/v1/books?page=2&page_size=5&sort=year&order=desc&query=library
+```
+This request:
+- Fetches **page 2** of results
+- Returns **5 books per page**
+- Sorts by **year** in **descending order**
+- Searches for books with **"library"** in their name/title
+
+---
 
 ### Example Request Body
 
