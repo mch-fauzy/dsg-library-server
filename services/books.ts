@@ -1,4 +1,5 @@
 import type {
+  BookCreateRequest,
   BookGetListByFilterRequest,
   BookListWithMetadataResponse,
 } from '../models/dto/books.js';
@@ -9,6 +10,19 @@ import {CONSTANT} from '../utils/constant.js';
 import {handleError} from '../utils/error-handler.js';
 
 class BookService {
+  static create = async (req: BookCreateRequest) => {
+    try {
+      await BookRepository.create(req);
+
+      return 'Success';
+    } catch (error) {
+      throw handleError({
+        operationName: 'BookService.insertBook',
+        error,
+      });
+    }
+  };
+
   static getListByFilter = async (
     req: BookGetListByFilterRequest,
   ): Promise<BookListWithMetadataResponse> => {

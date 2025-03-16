@@ -1,9 +1,11 @@
 import type {Context} from 'hono';
 import {StatusCodes} from 'http-status-codes';
 
-import {responseWithMetadata} from '../utils/response.js';
+import {responseWithMessage, responseWithMetadata} from '../utils/response.js';
 import {
+  BookCreateSchema,
   BookGetListByFilterSchema,
+  type BookCreateRequest,
   type BookGetListByFilterRequest,
 } from '../models/dto/books.js';
 import {BookService} from '../services/books.js';
@@ -11,6 +13,26 @@ import type {QueryRequest} from '../models/dto/query.js';
 import {CONSTANT} from '../utils/constant.js';
 
 class BookController {
+  static create = async (c: Context) => {
+    const body = await c.req.json();
+    const request: BookCreateRequest = {
+      name: body.name,
+      description: body.description,
+      price: body.price,
+      isbn: body.isbn,
+      issn: body.issn,
+      category: body.category,
+      publisher: body.publisher,
+      author: body.author,
+      year: body.year,
+    };
+
+    const validatedRequest = await BookCreateSchema.parseAsync(request);
+    const response = await BookService.create(validatedRequest);
+
+    return responseWithMessage(c, StatusCodes.CREATED, response);
+  };
+
   static getListByFilter = async (c: Context) => {
     const queryRequest: Partial<QueryRequest> = {
       page: c.req.query('page'),
@@ -29,7 +51,8 @@ class BookController {
       query: queryRequest.query,
     };
 
-    const validatedRequest = BookGetListByFilterSchema.parse(request);
+    const validatedRequest =
+      await BookGetListByFilterSchema.parseAsync(request);
     const response = await BookService.getListByFilter(validatedRequest);
 
     return responseWithMetadata(
