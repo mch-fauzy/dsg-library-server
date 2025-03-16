@@ -10,7 +10,7 @@ class ErrorResponseMiddleware {
             return responseWithMessage(c, error.code, error.message);
         }
         // Response with validation errors for Zod validator
-        if (error instanceof Error && error.name === 'ValidationError') {
+        if (error instanceof Error && error.name === 'ZodError') {
             return responseWithMessage(c, StatusCodes.BAD_REQUEST, error.message);
         }
         // Log and Response with unknown errors

@@ -1,6 +1,6 @@
 import { db } from '../configs/drizzle-client.js';
 import { dsgBooks } from '../db/schema.js';
-import { sql } from 'drizzle-orm';
+import { sql, eq } from 'drizzle-orm';
 import { handleError } from '../utils/error-handler.js';
 import { Failure } from '../utils/failure.js';
 import { CONSTANT } from '../utils/constant.js';
@@ -40,6 +40,35 @@ class BookRepository {
         catch (error) {
             throw handleError({
                 operationName: 'BookRepository.create',
+                error,
+            });
+        }
+    };
+    static updateById = async (params) => {
+        try {
+            const { id, data } = params;
+            const isAvailable = await this.existsById({ id });
+            if (!isAvailable)
+                throw Failure.notFound('Catalogue not found');
+            await db.update(dsgBooks).set(data).where(eq(dsgBooks.id, id));
+        }
+        catch (error) {
+            throw handleError({
+                operationName: 'BookRepository.updateById',
+                error,
+            });
+        }
+    };
+    static deleteById = async (primaryId) => {
+        try {
+            const isAvailable = await this.existsById({ id: primaryId.id });
+            if (!isAvailable)
+                throw Failure.notFound('Catalogue not found');
+            await db.delete(dsgBooks).where(eq(dsgBooks.id, primaryId.id));
+        }
+        catch (error) {
+            throw handleError({
+                operationName: 'BookRepository.deleteById',
                 error,
             });
         }
@@ -131,6 +160,22 @@ class BookRepository {
         catch (error) {
             throw handleError({
                 operationName: 'BookRepository.findManyAndCount',
+                error,
+            });
+        }
+    };
+    static existsById = async (primaryId) => {
+        try {
+            const results = await db
+                .select({ id: dsgBooks.id })
+                .from(dsgBooks)
+                .where(eq(dsgBooks.id, primaryId.id))
+                .limit(1);
+            return results.length > 0;
+        }
+        catch (error) {
+            throw handleError({
+                operationName: 'BookRepository.existsById',
                 error,
             });
         }
