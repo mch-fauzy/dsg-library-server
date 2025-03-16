@@ -2,6 +2,7 @@ import type {
   BookCreateRequest,
   BookGetListByFilterRequest,
   BookListWithMetadataResponse,
+  BookUpdateByIdRequest,
 } from '../models/dto/books.js';
 import type {Filter} from '../models/filter.js';
 import {BookRepository} from '../repositories/books.js';
@@ -17,7 +18,34 @@ class BookService {
       return 'Success';
     } catch (error) {
       throw handleError({
-        operationName: 'BookService.insertBook',
+        operationName: 'BookService.create',
+        error,
+      });
+    }
+  };
+
+  static updatedById = async (req: BookUpdateByIdRequest) => {
+    try {
+      await BookRepository.updateById({
+        id: req.id,
+        data: {
+          name: req.name,
+          category: req.category,
+          publisher: req.publisher,
+          author: req.author,
+          year: req.year,
+          price: req.price,
+          description: req.description,
+          isbn: req.isbn,
+          issn: req.issn,
+          updatedAt: new Date(),
+        },
+      });
+
+      return 'Success';
+    } catch (error) {
+      throw handleError({
+        operationName: 'BookService.updatedById',
         error,
       });
     }

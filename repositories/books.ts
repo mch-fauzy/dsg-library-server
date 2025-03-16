@@ -1,9 +1,14 @@
 import {db} from '../configs/drizzle-client.js';
 import {dsgBooks} from '../db/schema.js';
-import {sql} from 'drizzle-orm';
+import {sql, eq} from 'drizzle-orm';
 
 import {handleError} from '../utils/error-handler.js';
-import type {Book, BookCreate} from '../models/books.js';
+import type {
+  Book,
+  BookCreate,
+  BookPrimaryId,
+  BookUpdateById,
+} from '../models/books.js';
 import type {Filter} from '../models/filter.js';
 import {Failure} from '../utils/failure.js';
 import {CONSTANT} from '../utils/constant.js';
@@ -47,6 +52,22 @@ class BookRepository {
     } catch (error) {
       throw handleError({
         operationName: 'BookRepository.create',
+        error,
+      });
+    }
+  };
+
+  static updateById = async (params: BookUpdateById) => {
+    try {
+      const {id, data} = params;
+
+      const isAvailable = await this.existsById({id});
+      if (!isAvailable) throw Failure.notFound('Catalogue not found');
+
+      await db.update(dsgBooks).set(data).where(eq(dsgBooks.id, id));
+    } catch (error) {
+      throw handleError({
+        operationName: 'BookRepository.updateById',
         error,
       });
     }
@@ -156,6 +177,22 @@ class BookRepository {
     } catch (error) {
       throw handleError({
         operationName: 'BookRepository.findManyAndCount',
+        error,
+      });
+    }
+  };
+
+  static existsById = async (primaryId: BookPrimaryId) => {
+    try {
+      const results = await db
+        .select({id: dsgBooks.id})
+        .from(dsgBooks)
+        .where(eq(dsgBooks.id, primaryId.id))
+        .limit(1);
+      return results.length > 0;
+    } catch (error) {
+      throw handleError({
+        operationName: 'BookRepository.existsById',
         error,
       });
     }

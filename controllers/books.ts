@@ -5,8 +5,10 @@ import {responseWithMessage, responseWithMetadata} from '../utils/response.js';
 import {
   BookCreateSchema,
   BookGetListByFilterSchema,
+  BookUpdateByIdSchema,
   type BookCreateRequest,
   type BookGetListByFilterRequest,
+  type BookUpdateByIdRequest,
 } from '../models/dto/books.js';
 import {BookService} from '../services/books.js';
 import type {QueryRequest} from '../models/dto/query.js';
@@ -31,6 +33,27 @@ class BookController {
     const response = await BookService.create(validatedRequest);
 
     return responseWithMessage(c, StatusCodes.CREATED, response);
+  };
+
+  static updateById = async (c: Context) => {
+    const body = await c.req.json();
+    const request: BookUpdateByIdRequest = {
+      id: Number(c.req.param('id')),
+      name: body.name,
+      description: body.description,
+      price: body.price,
+      isbn: body.isbn,
+      issn: body.issn,
+      category: body.category,
+      publisher: body.publisher,
+      author: body.author,
+      year: body.year,
+    };
+
+    const validatedRequest = await BookUpdateByIdSchema.parseAsync(request);
+    const response = await BookService.updatedById(validatedRequest);
+
+    return responseWithMessage(c, StatusCodes.OK, response);
   };
 
   static getListByFilter = async (c: Context) => {
