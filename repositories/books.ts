@@ -73,6 +73,20 @@ class BookRepository {
     }
   };
 
+  static deleteById = async (primaryId: BookPrimaryId) => {
+    try {
+      const isAvailable = await this.existsById({id: primaryId.id});
+      if (!isAvailable) throw Failure.notFound('Catalogue not found');
+
+      await db.delete(dsgBooks).where(eq(dsgBooks.id, primaryId.id));
+    } catch (error) {
+      throw handleError({
+        operationName: 'BookRepository.deleteById',
+        error,
+      });
+    }
+  };
+
   static findManyAndCountByFilter = async (
     filter: Filter,
   ): Promise<{books: Book[]; totalBooks: number}> => {

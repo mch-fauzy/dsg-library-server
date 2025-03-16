@@ -4,9 +4,11 @@ import {StatusCodes} from 'http-status-codes';
 import {responseWithMessage, responseWithMetadata} from '../utils/response.js';
 import {
   BookCreateSchema,
+  BookDeleteByIdSchema,
   BookGetListByFilterSchema,
   BookUpdateByIdSchema,
   type BookCreateRequest,
+  type BookDeleteByIdRequest,
   type BookGetListByFilterRequest,
   type BookUpdateByIdRequest,
 } from '../models/dto/books.js';
@@ -52,6 +54,17 @@ class BookController {
 
     const validatedRequest = await BookUpdateByIdSchema.parseAsync(request);
     const response = await BookService.updatedById(validatedRequest);
+
+    return responseWithMessage(c, StatusCodes.OK, response);
+  };
+
+  static deleteById = async (c: Context) => {
+    const request: BookDeleteByIdRequest = {
+      id: Number(c.req.param('id')),
+    };
+
+    const validatedRequest = await BookDeleteByIdSchema.parseAsync(request);
+    const response = await BookService.deleteById(validatedRequest);
 
     return responseWithMessage(c, StatusCodes.OK, response);
   };

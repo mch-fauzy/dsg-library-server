@@ -1,5 +1,6 @@
 import type {
   BookCreateRequest,
+  BookDeleteByIdRequest,
   BookGetListByFilterRequest,
   BookListWithMetadataResponse,
   BookUpdateByIdRequest,
@@ -46,6 +47,21 @@ class BookService {
     } catch (error) {
       throw handleError({
         operationName: 'BookService.updatedById',
+        error,
+      });
+    }
+  };
+
+  static deleteById = async (req: BookDeleteByIdRequest) => {
+    try {
+      await BookRepository.deleteById({
+        id: req.id,
+      });
+
+      return 'Success';
+    } catch (error) {
+      throw handleError({
+        operationName: 'BookService.deleteById',
         error,
       });
     }

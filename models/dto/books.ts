@@ -88,10 +88,15 @@ const BookUpdateByIdSchema = z
     },
   );
 
+const BookDeleteByIdSchema = z.object({
+  id: z.number().int().min(1, {message: 'Id must be at least 1'}),
+});
+
 type BookGetByNameRequest = z.infer<typeof BookGetByNameSchema>;
 type BookGetListByFilterRequest = z.infer<typeof BookGetListByFilterSchema>;
 type BookCreateRequest = z.infer<typeof BookCreateSchema>;
 type BookUpdateByIdRequest = z.infer<typeof BookUpdateByIdSchema>;
+type BookDeleteByIdRequest = z.infer<typeof BookDeleteByIdSchema>;
 
 interface BookResponse {
   name: string;
@@ -115,9 +120,11 @@ export {
   BookGetListByFilterSchema,
   BookCreateSchema,
   BookUpdateByIdSchema,
+  BookDeleteByIdSchema,
   type BookGetByNameRequest,
   type BookGetListByFilterRequest,
   type BookListWithMetadataResponse,
   type BookCreateRequest,
   type BookUpdateByIdRequest,
+  type BookDeleteByIdRequest,
 };
