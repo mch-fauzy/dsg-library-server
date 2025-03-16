@@ -7,7 +7,7 @@ const CONFIG = {
   },
   DATABASE: {
     URL: process.env.DATABASE_URL,
-  }
+  },
 };
 
 export {CONFIG};
