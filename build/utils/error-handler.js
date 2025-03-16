@@ -21,7 +21,7 @@ const handleGenericError = ({ operationName, error }) => {
     logError({
         message,
         operationName,
-        error
+        error,
     });
     return Failure.internalServer(`${message}`);
 };
@@ -33,7 +33,7 @@ const handleUnknownError = ({ operationName, error }) => {
     logUnknownError({
         message,
         operationName,
-        error
+        error,
     });
     return Failure.internalServer(`${message}`);
 };

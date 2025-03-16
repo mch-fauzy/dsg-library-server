@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import { CONSTANT } from './constant.js';
 class Failure extends Error {
     /* Custom properties */
     code;

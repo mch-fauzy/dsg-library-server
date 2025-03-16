@@ -5,5 +5,8 @@ declare const CONFIG: {
     APP: {
         NAME: string | undefined;
     };
+    DATABASE: {
+        URL: string | undefined;
+    };
 };
 export { CONFIG };

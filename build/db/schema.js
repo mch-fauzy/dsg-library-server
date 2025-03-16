@@ -13,7 +13,7 @@ const dsgBooks = pgTable('dsg_books', {
     createdAt: timestamp('created_at', { withTimezone: true })
         .defaultNow()
         .notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
+    updatedAt: timestamp('updated_at', { withTimezone: true }),
 });
 export { dsgBooks };
 //# sourceMappingURL=schema.js.map

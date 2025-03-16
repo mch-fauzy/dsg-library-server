@@ -3,7 +3,7 @@ import { CONSTANT } from './constant.js';
 /**
  * Logs generic errors using Winston logger
  */
-const logError = ({ message, operationName, error, }) => {
+const logError = ({ message, operationName, error }) => {
     winstonLogger.error({
         message,
         operation: operationName,

@@ -20,7 +20,7 @@ interface LogUnknownError extends LogBase {
 /**
  * Logs generic errors using Winston logger
  */
-declare const logError: ({ message, operationName, error, }: LogGenericError) => void;
+declare const logError: ({ message, operationName, error }: LogGenericError) => void;
 /**
  * Logs unknown errors using Winston logger
  */

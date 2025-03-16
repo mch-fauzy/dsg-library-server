@@ -4,7 +4,10 @@ const CONFIG = {
     },
     APP: {
         NAME: process.env.APP_NAME,
-    }
+    },
+    DATABASE: {
+        URL: process.env.DATABASE_URL,
+    },
 };
 export { CONFIG };
 //# sourceMappingURL=config.js.map
