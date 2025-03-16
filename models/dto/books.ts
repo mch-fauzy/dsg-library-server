@@ -99,6 +99,7 @@ type BookUpdateByIdRequest = z.infer<typeof BookUpdateByIdSchema>;
 type BookDeleteByIdRequest = z.infer<typeof BookDeleteByIdSchema>;
 
 interface BookResponse {
+  id: number;
   name: string;
   description: string | null;
   price: number;

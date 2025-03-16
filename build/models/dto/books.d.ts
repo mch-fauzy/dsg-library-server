@@ -38,21 +38,21 @@ declare const BookCreateSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
     name: string;
-    price: number;
     category: string;
+    publisher: string;
     author: string;
     year: number;
-    publisher: string;
+    price: number;
     isbn?: string | null | undefined;
     issn?: string | null | undefined;
     description?: string | null | undefined;
 }, {
     name: string;
-    price: number;
     category: string;
+    publisher: string;
     author: string;
     year: number;
-    publisher: string;
+    price: number;
     isbn?: string | null | undefined;
     issn?: string | null | undefined;
     description?: string | null | undefined;
@@ -71,47 +71,47 @@ declare const BookUpdateByIdSchema: z.ZodEffects<z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     id: number;
     name?: string | undefined;
+    category?: string | undefined;
+    publisher?: string | undefined;
     isbn?: string | null | undefined;
     issn?: string | null | undefined;
-    description?: string | null | undefined;
-    price?: number | undefined;
-    category?: string | undefined;
     author?: string | undefined;
     year?: number | undefined;
-    publisher?: string | undefined;
+    price?: number | undefined;
+    description?: string | null | undefined;
 }, {
     id: number;
     name?: string | undefined;
+    category?: string | undefined;
+    publisher?: string | undefined;
     isbn?: string | null | undefined;
     issn?: string | null | undefined;
-    description?: string | null | undefined;
-    price?: number | undefined;
-    category?: string | undefined;
     author?: string | undefined;
     year?: number | undefined;
-    publisher?: string | undefined;
+    price?: number | undefined;
+    description?: string | null | undefined;
 }>, {
     id: number;
     name?: string | undefined;
+    category?: string | undefined;
+    publisher?: string | undefined;
     isbn?: string | null | undefined;
     issn?: string | null | undefined;
-    description?: string | null | undefined;
-    price?: number | undefined;
-    category?: string | undefined;
     author?: string | undefined;
     year?: number | undefined;
-    publisher?: string | undefined;
+    price?: number | undefined;
+    description?: string | null | undefined;
 }, {
     id: number;
     name?: string | undefined;
+    category?: string | undefined;
+    publisher?: string | undefined;
     isbn?: string | null | undefined;
     issn?: string | null | undefined;
-    description?: string | null | undefined;
-    price?: number | undefined;
-    category?: string | undefined;
     author?: string | undefined;
     year?: number | undefined;
-    publisher?: string | undefined;
+    price?: number | undefined;
+    description?: string | null | undefined;
 }>;
 declare const BookDeleteByIdSchema: z.ZodObject<{
     id: z.ZodNumber;
@@ -126,6 +126,7 @@ type BookCreateRequest = z.infer<typeof BookCreateSchema>;
 type BookUpdateByIdRequest = z.infer<typeof BookUpdateByIdSchema>;
 type BookDeleteByIdRequest = z.infer<typeof BookDeleteByIdSchema>;
 interface BookResponse {
+    id: number;
     name: string;
     description: string | null;
     price: number;

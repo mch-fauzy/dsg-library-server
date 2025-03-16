@@ -73,6 +73,7 @@ class BookService {
     try {
       const filter: Filter = {
         selectFields: [
+          CONSTANT.DB_FIELD.ID,
           CONSTANT.DB_FIELD.NAME,
           CONSTANT.DB_FIELD.DESCRIPTION,
           CONSTANT.DB_FIELD.PRICE,
@@ -117,6 +118,7 @@ class BookService {
       const response: BookListWithMetadataResponse = {
         data: books.map(book => {
           return {
+            id: book.id,
             name: book.name,
             description: book.description,
             price: book.price,
